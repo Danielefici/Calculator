@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calcolatrice</title>
+    <script src="code.jquery.com_jquery-3.7.0.min.js"></script>
+</head>
+<body>
+    <h1>Calcolatrice</h1>
+    <input type="number" id="oper1" placeholder="Oper 1">
+    <input type="number" id="oper2" placeholder="Oper 2">
+  
+    <select id="op">
+      <option value="add">Add</option>
+      <option value="sott">Sott</option>
+      <option value="molt">Molt</option>
+      <option value="divi">Divi</option>
+    </select>
+  
+    <button id="calcola">Calcola</button>
+  
+    <div id="risultato"></div>
+  
+    <script>
+        $(document).ready(function() {
+          $("#calcola").click(function() {
+            const oper1 = parseInt($("#oper1").val());
+            const oper2 = parseInt($("#oper2").val());
+            const op = $("#op").val();
+  
+            const data = { 
+              oper1:oper1,
+              oper2:oper2, 
+              op:op 
+            };
+  
+            $.ajax({
+              url: 'http://localhost:3000/calcolatrice',
+              type: 'POST',
+              contentType: 'application/json',
+              data: JSON.stringify(data),
+              success: function(result) {
+                $("#risultato").text(`Risultato: ${JSON.stringify(result)}`);
+              },
+              error: function(error) {
+                console.error('errore:', error);
+              }
+            });
+          });
+        });
+    </script>
+</body>
+</html>
